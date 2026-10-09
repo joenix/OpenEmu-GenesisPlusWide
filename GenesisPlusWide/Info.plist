@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<key>CFBundleDisplayName</key>
+	<string>Genesis Plus GX Wide (Xiaomi)</string>
+	<key>CFBundleExecutable</key>
+	<string>${EXECUTABLE_NAME}</string>
+	<key>CFBundleIconFile</key>
+	<string></string>
+	<key>CFBundleIdentifier</key>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>${PRODUCT_NAME}</string>
+	<key>CFBundlePackageType</key>
+	<string>BNDL</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>CFBundleVersion</key>
+	<string>0.1.0</string>
+	<key>NSPrincipalClass</key>
+	<string>OEGameCoreController</string>
+	<key>OEGameCoreClass</key>
+	<string>XiaomiWideGameCore</string>
+	<key>OEGameCoreOptions</key>
+	<dict>
+		<key>openemu.system.sg</key>
+		<dict>
+			<key>OEGameCoreRewindBufferSeconds</key>
+			<integer>60</integer>
+			<key>OEGameCoreRewindInterval</key>
+			<integer>0</integer>
+			<key>OEGameCoreSupportsCheatCode</key>
+			<true/>
+			<key>OEGameCoreSupportsCheatSearch</key>
+			<true/>
+			<key>OEGameCoreSupportsRetroAchievements</key>
+			<false/>
+			<key>OEGameCoreSupportsRewinding</key>
+			<true/>
+			<key>OERequiredFiles</key>
+			<array>
+				<dict>
+					<key>Description</key>
+					<string>Sonic &amp; Knuckles (Lock-on) UPMEM Chip</string>
+					<key>MD5</key>
+					<string>b4e76e416b887f4e7413ba76fa735f16</string>
+					<key>Name</key>
+					<string>Sonic &amp; Knuckles (World) (Lock-on).bin</string>
+					<key>Optional</key>
+					<true/>
+					<key>Size</key>
+					<integer>262144</integer>
+				</dict>
+			</array>
+		</dict>
+	</dict>
+	<key>OEGameCorePlayerCount</key>
+	<string>8</string>
+	<key>OEProjectURL</key>
+	<string>https://github.com/libretro/Genesis-Plus-GX-Wide</string>
+	<key>OESystemIdentifiers</key>
+	<array>
+		<string>openemu.system.sg</string>
+	</array>
+	<key>SUEnableAutomaticChecks</key>
+	<false/>
+</dict>
+</plist>
