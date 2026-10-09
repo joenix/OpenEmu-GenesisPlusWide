@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-VERSION=v0.1.0-alpha.1
+VERSION=v0.1.1-alpha.1
 NAME="GenesisPlusWide-$VERSION-arm64"
 mkdir -p "$ROOT/dist"
 STAGE="$(mktemp -d "${TMPDIR:-/tmp}/openemu-wide-package.XXXXXX")"

@@ -9,15 +9,7 @@
  @end
 --- upstream/GenesisPlus/GenPlusGameCore.m
 +++ GenesisPlusWide/GenPlusGameCore.m
-@@ -25,6 +25,7 @@
- */
- 
- #import "GenPlusGameCore.h"
-+#import <CommonCrypto/CommonDigest.h>
- #import <OpenEmuBase/OERingBuffer.h>
- #import <OpenEmuBase/OEMemoryRegionDescriptor.h>
- #import "OESMSSystemResponderClient.h"
-@@ -113,7 +114,7 @@
+@@ -113,7 +113,7 @@
      EA4WayPlay                      // 1-4 players: EA 4-Way Play
  };
  
@@ -26,7 +18,7 @@
  {
      uint8_t *_videoBuffer;
      int16_t *_soundBuffer;
-@@ -171,7 +172,7 @@
+@@ -171,7 +171,7 @@
  static void genplus_rc_load_game_callback(int result, const char *error_message,
                                             rc_client_t *client, void *userdata)
  {
@@ -35,7 +27,7 @@
      if (result != RC_OK) {
          NSLog(@"[RA-GenPlus] game load failed — result=%d error=%s", result, error_message ?: "(none)");
          oeRetroAchievementsPostSessionLoadFailure(result, error_message);
-@@ -183,7 +184,7 @@
+@@ -183,7 +183,7 @@
  static void genplus_rc_login_callback(int result, const char *error_message,
                                         rc_client_t *client, void *userdata)
  {
@@ -44,7 +36,7 @@
      if (result == RC_OK) {
          [s _beginLoadGame];
      } else {
-@@ -210,13 +211,13 @@
+@@ -210,13 +210,13 @@
          postNotificationName:OEAchievementUnlockedNotification
                        object:nil
                      userInfo:info];
@@ -62,29 +54,19 @@
  
  - (void)_beginLoadGame
  {
-@@ -392,6 +393,21 @@
+@@ -392,6 +392,11 @@
      snprintf(CART_BRAM, sizeof(CART_BRAM), "%s%scart.brm", self.batterySavesDirectoryPath.fileSystemRepresentation, "/");
  
      [self configureOptions];
-+    // A content fingerprint prevents ordinary games from entering this dedicated core.
-+    NSData *romData = [NSData dataWithContentsOfFile:path options:NSDataReadingMappedIfSafe error:error];
-+    if (!romData) return NO;
-+    unsigned char digest[CC_SHA256_DIGEST_LENGTH];
-+    CC_SHA256(romData.bytes, (CC_LONG)romData.length, digest);
-+    static const unsigned char expected[] = {0xde,0x30,0xcf,0x4f,0x39,0x13,0xdf,0x51,0x03,0x3f,0x38,0x6b,0xa3,0x03,0xce,0x3c,0x4f,0x58,0x60,0xb3,0x9b,0x99,0x20,0x52,0x8a,0xb2,0x49,0x00,0xa5,0xbb,0x98,0x95};
-+    if (romData.length != 3145728 || memcmp(digest, expected, sizeof(expected)) != 0) {
-+        if (error) *error = [NSError errorWithDomain:@"XiaomiWideCore" code:1 userInfo:@{
-+            NSLocalizedDescriptionKey: @"此宽屏核心仅支持已验证的光之继承者宽屏 ROM。其他 MD 游戏请选择 Genesis Plus GX 普通核心。"
-+        }];
-+        return NO;
-+    }
++    // Selecting this independent core is the user's explicit widescreen opt-in.
++    // No game names, file sizes, headers, or content fingerprints select this mode.
 +    config.h40_extra_columns = 10;
 +    config.h40_extra_columns_alpha = 100;
 +
  
      if (self.lockOnRomURL != nil && [self.systemIdentifier isEqualToString:@"openemu.system.sg"])
      {
-@@ -473,13 +489,13 @@
+@@ -473,13 +478,13 @@
          rc_client_set_allow_background_memory_reads(_rcClient, 0);
          rc_client_enable_logging(_rcClient, RC_CLIENT_LOG_LEVEL_INFO, genplus_rc_log);
  
@@ -100,7 +82,7 @@
              if (!s || !s->_rcClient) { return; }
              NSString *token    = note.userInfo[OERetroAchievementsTokenKey];
              NSString *username = note.userInfo[OERetroAchievementsUsernameKey];
-@@ -662,7 +678,7 @@
+@@ -662,7 +667,7 @@
      {
          // H32 mode (256px * 8:7 PAR)
          // H40 mode (320px * 32:35 PAR)
@@ -109,7 +91,7 @@
      }
  }
  
-@@ -1138,6 +1154,8 @@
+@@ -1138,6 +1143,8 @@
  - (void)configureOptions
  {
      /* sound options */
@@ -134,7 +116,7 @@
  	<string>????</string>
  	<key>CFBundleVersion</key>
 -	<string>1.7.5.8</string>
-+	<string>0.1.0</string>
++	<string>0.1.1</string>
  	<key>NSPrincipalClass</key>
  	<string>OEGameCoreController</string>
  	<key>OEGameCoreClass</key>

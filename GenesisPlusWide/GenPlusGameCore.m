@@ -25,7 +25,6 @@
 */
 
 #import "GenPlusGameCore.h"
-#import <CommonCrypto/CommonDigest.h>
 #import <OpenEmuBase/OERingBuffer.h>
 #import <OpenEmuBase/OEMemoryRegionDescriptor.h>
 #import "OESMSSystemResponderClient.h"
@@ -393,18 +392,8 @@ static __weak XiaomiWideGameCore *_current;
     snprintf(CART_BRAM, sizeof(CART_BRAM), "%s%scart.brm", self.batterySavesDirectoryPath.fileSystemRepresentation, "/");
 
     [self configureOptions];
-    // A content fingerprint prevents ordinary games from entering this dedicated core.
-    NSData *romData = [NSData dataWithContentsOfFile:path options:NSDataReadingMappedIfSafe error:error];
-    if (!romData) return NO;
-    unsigned char digest[CC_SHA256_DIGEST_LENGTH];
-    CC_SHA256(romData.bytes, (CC_LONG)romData.length, digest);
-    static const unsigned char expected[] = {0xde,0x30,0xcf,0x4f,0x39,0x13,0xdf,0x51,0x03,0x3f,0x38,0x6b,0xa3,0x03,0xce,0x3c,0x4f,0x58,0x60,0xb3,0x9b,0x99,0x20,0x52,0x8a,0xb2,0x49,0x00,0xa5,0xbb,0x98,0x95};
-    if (romData.length != 3145728 || memcmp(digest, expected, sizeof(expected)) != 0) {
-        if (error) *error = [NSError errorWithDomain:@"XiaomiWideCore" code:1 userInfo:@{
-            NSLocalizedDescriptionKey: @"此宽屏核心仅支持已验证的光之继承者宽屏 ROM。其他 MD 游戏请选择 Genesis Plus GX 普通核心。"
-        }];
-        return NO;
-    }
+    // Selecting this independent core is the user's explicit widescreen opt-in.
+    // No game names, file sizes, headers, or content fingerprints select this mode.
     config.h40_extra_columns = 10;
     config.h40_extra_columns_alpha = 100;
 

@@ -39,4 +39,4 @@ mv "$STAGING/GenesisPlusWide.oecoreplugin" "$DEST"
 SUCCESS=1
 echo "安装完成：$DEST"
 [ -z "$BACKUP" ] || echo "旧版备份：$BACKUP"
-echo '重新打开 OpenEmu，为支持的 ROM 选择 GenesisPlusWide 核心并冷启动。'
+echo '重新打开 OpenEmu，为需要宽屏显示的游戏选择 GenesisPlusWide 核心并冷启动。'

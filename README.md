@@ -1,12 +1,12 @@
 # OpenEmu GenesisPlus Wide（小咪）
 
-为 OpenEmu-Silicon 提供独立的 Mega Drive 宽屏核心。当前输出为 **400 × 224**，普通 ROM 继续使用原有 GenesisPlus 核心。
+为 OpenEmu-Silicon 提供独立的 Mega Drive 宽屏核心。宽屏作为用户主动选择的显示模式；普通 ROM 继续使用原有 GenesisPlus 核心。
 
 **当前为实验性预发布版。** 已通过本机核心 API 的启动、渲染、输入及即时存档检查；完整图形界面与真实键盘验收尚未完成。真实键盘的输入监控权限与宿主兼容性需要继续验收，不能把本版视作已完成兼容性验收的稳定版本。
 
 ## 下载与安装
 
-到 [Releases](https://github.com/joenix/OpenEmu-GenesisPlusWide/releases) 下载 `GenesisPlusWide-v0.1.0-alpha.1-arm64.zip` 并解压。
+到 [Releases](https://github.com/joenix/OpenEmu-GenesisPlusWide/releases) 下载 `GenesisPlusWide-v0.1.1-alpha.1-arm64.zip` 并解压。
 
 1. 完全退出 OpenEmu。
 2. 双击 `Install.command` 安装；或把 `GenesisPlusWide.oecoreplugin` 放入 `~/Library/Application Support/OpenEmu/Cores/`。
@@ -17,15 +17,20 @@
 
 适用平台：Apple Silicon（arm64），macOS 12 及以上；本机使用 OpenEmu-Silicon 1.3.0（build 22）。其他宿主版本、Intel Mac、手柄及跨核心旧即时存档尚未验收。macOS 12 是编译部署目标，不代表所有系统版本均已测试。
 
-## 支持的 ROM
+## 如何启用宽屏
 
-本版仅接受以下内容指纹，文件改名不影响识别：
+本核心通过用户选择的模拟核心确定显示模式，不检测具体游戏：
 
-- 光之继承者 / Beyond Oasis Extended v1.4 的 ALI 困难模式全道具强化开局 v1 宽屏版本
-- 文件长度：3,145,728 字节
-- SHA-256：`de30cf4f3913df51033f386ba303ce3c4f5860b39b9920528ab24900a5bb9895`
+- 选择 `GenesisPlusWide`：启用扩展宽屏渲染。
+- 选择原有 `GenesisPlus`：使用普通显示模式。
 
-项目与安装包不提供 ROM，也不会修改 ROM 内容。其他 ROM 请使用普通 GenesisPlus 核心；当前没有自动为所有宽屏 ROM 选择核心的功能。
+不使用 ROM 名称、文件名、文件大小、哈希白名单或游戏专属标识来判定宽屏。普通 MD ROM 与宽屏 MD ROM 没有本项目可以通用、可靠使用的自动识别规则，因此本版采用手动选择核心的方式。
+
+宽屏模式在游戏原有水平分辨率上增加 80 像素（10 个 8 像素列），高度沿用游戏视频模式；320 像素模式输出 400 像素宽，256 像素模式输出 336 像素宽。这是扩展渲染范围，并非把原画面横向拉伸。
+
+选择宽屏核心不会让游戏逻辑自动适配宽屏。边缘物体、滚动、HUD 或遮挡能否正确显示取决于游戏自身实现；显示异常时，可切回普通核心。不同游戏的完整兼容性需要分别验收。
+
+项目与安装包不提供 ROM，也不会修改 ROM 内容、游戏难度、道具或角色属性。SHA-256 校验仅用于验证下载的安装包与插件文件完整性，不参与游戏识别。
 
 ## 本次改动
 
@@ -33,11 +38,9 @@
 
 - 独立插件标识、类名和安装目录，保留普通 MD 核心。
 - 接入 Genesis Plus GX Wide 的 VDP 渲染实现。
-- 为受支持 ROM 增加 10 个 8 像素宽度列，按 400 × 224 显示。
-- 通过文件长度和 SHA-256 限定适用 ROM，避免误用。
+- 用户选择宽屏核心后，增加 10 个 8 像素宽度列，高度沿用游戏的视频模式。
+- 宽屏模式与 ROM 内容解耦，通过选择独立核心启用。
 - 不启用自动核心更新，后续版本从本项目 Releases 手动更新。
-
-游戏内 ALI 困难模式、全道具和强化开局属于既有 ROM 功能，不是本核心增加的功能。
 
 旧即时存档存在核心版本与内部格式兼容风险；出现版本不匹配提示时，请保留原存档并冷启动。游戏内存档与即时存档是不同机制。本项目未承诺旧即时存档可跨核心迁移。
 
@@ -68,4 +71,4 @@
 
 各组件遵循各自原有许可证，见 [LICENSE](LICENSE)、[LICENSES](LICENSES) 及文件内声明。Genesis Plus GX 衍生版本禁止销售或商业用途；发布修改后的二进制时需要同时提供完整源码。Release 附有对应的完整源码归档；仓库保留原有版权声明。
 
-问题反馈请附宿主版本、macOS 版本、核心版本、ROM SHA-256 及复现步骤，不要上传 ROM 或个人存档。
+问题反馈请附宿主版本、macOS 版本、核心版本、所选显示模式及复现步骤，不要上传 ROM 或个人存档。
