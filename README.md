@@ -10,7 +10,7 @@
 
 ## 如何使用
 
-1. 到 [Releases](https://github.com/joenix/OpenEmu-GenesisPlusWide/releases/latest) 下载 `GenesisPlusWide-*-arm64.zip` 并解压。
+1. 到 [Releases](https://github.com/joenix/OpenEmu-GenesisPlusWide/releases) 下载 `GenesisPlusWide-*-arm64.zip` 并解压。
 2. 完全退出 OpenEmu，双击 `Install.command` 安装。
 3. 重新打开 OpenEmu，右键点击游戏，选择 **Play With → GenesisPlusWide**，以宽屏模式启动。
 4. 普通显示选择 **Play With → GenesisPlus**。希望双击游戏默认使用普通模式时，请在 OpenEmu 的核心设置中将 `GenesisPlus` 设为 MD 默认核心。
